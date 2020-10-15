@@ -1,0 +1,11 @@
+{
+  "include": ["src/*"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["react", "jest"],
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true
+  }
+}

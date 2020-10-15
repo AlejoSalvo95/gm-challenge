@@ -11,7 +11,7 @@ class App extends Component<{}, AppState> {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Hello React Button"
+      name: "Hello React Button",
     };
   }
 
@@ -25,7 +25,7 @@ class App extends Component<{}, AppState> {
         <p>Simple React Typescript Starter</p>
         <ButtonCounter
           name={this.state.name}
-          onClicked={e => this.onChildClicked(e)}
+          onClicked={(e) => this.onChildClicked(e)}
         />
       </div>
     );
