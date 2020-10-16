@@ -9,11 +9,13 @@
       "sourceMap": true,
       "allowJs": true,
       "types": ["react"],
-      "esModuleInterop": true,
 
-      "jsx": "react"
+      "jsx": "react",
+      
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     },
     "exclude": [
-      "./node_modules/**/*"
-    ]
+      "./node_modules/**/*",
+    ],
   }

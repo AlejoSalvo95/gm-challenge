@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import {Provider} from "react-redux";
-import { ButtonCounter } from "./ButtonCounter";
+import { ButtonCounter } from "./components/Button/ButtonCounter";
+import Table from "./components/Table/Table";
+
+
 import store from "./redux/store";
 import "./style.css";
 
@@ -30,6 +33,7 @@ class App extends Component<{}, AppState> {
             name={this.state.name}
             onClicked={(e) => this.onChildClicked(e)}
           />
+          {Table()}
         </div>
       </Provider>
     );
