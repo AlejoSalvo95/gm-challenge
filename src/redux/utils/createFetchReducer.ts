@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { GenericEntityState, ResponseAction } from "../types";
 
-//@ts-ignore
+// @ts-ignore
 function defaultMapper(state: GenericEntityState, action: Action) {
     return ({});
 }
@@ -18,7 +18,7 @@ export default function createFetchReducer(
     state: any,
     action: ResponseAction
   ): void => {
-    
+
     state.loading = loading;
     state.response = loading ? null : action.response;
     state.error = loading ? null : action.error;
@@ -30,10 +30,10 @@ export default function createFetchReducer(
   reducerObject[REQUEST_TYPE] = handle(true);
   reducerObject[SUCCESS_TYPE] = handle(false);
   reducerObject[FAILURE_TYPE] = handle(false, true);
-  
+
   return reducerObject;
 }
-type ReducerObject = { [key: string]: (state: any, action: any) => void };
+interface ReducerObject { [key: string]: (state: any, action: any) => void; }
 type MapperFunction = (state: GenericEntityState , action: ResponseAction) => void;
 
 type CreateFetchReducersReturnType = object;

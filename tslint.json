@@ -1,5 +1,49 @@
 {
-  "rules": {
-    "no-unreachable": true
-  }
+    "extends": "tslint:recommended",
+    "rules": {
+        "max-line-length": {
+            "options": [120]
+        },
+        "semicolon":true,
+        "eofline": true,
+        "object-literal-sort-keys": false,
+        "interface-name": false,
+        "member-access": false,
+
+        "whitespace": {
+            "options": [
+                "check-type"
+            ]
+        },
+        "interface-over-type-literal": true,
+        "space-before-function-paren": [true, "never"],
+        "align": [true, "statements"],
+        "arrow-parens": true,
+        "trailing-comma": [true, {
+            "singleline": "never",
+            "multiline": {
+              "objects": "always", 
+              "arrays": "always",
+              "functions": "never",
+              "typeLiterals": "ignore"
+            }
+          }],
+        "ordered-imports": [
+            true
+        ],
+        "new-parens": true,
+        "no-arg": true,
+        "no-bitwise": true,
+        "no-conditional-assignment": true,
+        "no-consecutive-blank-lines": false,
+        "no-console": {
+            "severity": "warning",
+            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+        }
+    },
+    "jsRules": {
+        "max-line-length": {
+            "options": [120]
+        }
+    }
 }

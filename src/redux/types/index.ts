@@ -1,7 +1,7 @@
-import store from "../store";
-import { useDispatch } from "react-redux";
 import { Action } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
+import { useDispatch } from "react-redux";
+import store from "../store";
 
 export type fetchAction = {
   type: string[];
@@ -24,18 +24,18 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export type RootState = ReturnType<typeof store.getState>;
 
-type PagesObject = {
+interface PagesObject {
   [key: string]: string[];
-};
+}
 
-export type EntityPaginationObject = {
+export interface EntityPaginationObject {
   pages: PagesObject;
   currentPage: number;
   totalPages?: number;
   count?: number;
-};
+}
 
-export type GenericEntityState = {
+export interface GenericEntityState {
   loading: boolean;
   // should have a generic response type for example {status,message}
   response: GenericAPIResponse & any;
@@ -43,9 +43,9 @@ export type GenericEntityState = {
   error: any;
   pagination?: EntityPaginationObject;
   [key: string]: any;
-};
+}
 
-export type GenericAPIResponse = {
+export interface GenericAPIResponse {
   status: number;
   message: string;
-};
+}

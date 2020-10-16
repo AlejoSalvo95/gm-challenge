@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { StyledButton, StyledDiv } from "./ButtonCounter.styles";
 
+type arrowFunction = (num: number) => void;
+
 interface ButtonCounterProps {
-  onClicked: Function;
+  onClicked: arrowFunction;
   name: string;
 }
 interface ButtonCounterState {

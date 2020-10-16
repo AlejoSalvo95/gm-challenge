@@ -1,9 +1,9 @@
-import { MiddlewareAPI, Action } from "@reduxjs/toolkit";
+import { Action, MiddlewareAPI } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
 import { fetchAction } from "../types";
 
 function fetchMiddleware({ dispatch }: MiddlewareAPI) {
-  return (next: Dispatch<Action>) => async (action: fetchAction) => {
+  return (next: Dispatch<Action>) => async(action: fetchAction) => {
     const {
       type,
       callAPI,
@@ -12,7 +12,7 @@ function fetchMiddleware({ dispatch }: MiddlewareAPI) {
       payload = {},
     } = action;
 
-    
+
     if (!type || !Array.isArray(type)) {
       // Normal action: pass it on
       return next(action);
@@ -36,7 +36,7 @@ function fetchMiddleware({ dispatch }: MiddlewareAPI) {
 
       try {
         const { data: response } = await callAPI();
-        
+
         dispatch({
           type: successType,
           payload,
