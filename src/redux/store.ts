@@ -1,16 +1,15 @@
 import {
-    combineReducers,
     configureStore,
     getDefaultMiddleware,
   } from "@reduxjs/toolkit";
-
 import httpHandler from "./middleware/http-handler";
+import tableReducer from "./reducers/tableReducer";
 import { useAppDispatch } from "./types";
-const reducers = combineReducers({
-    // ... reducers go here
-});
+
 const store = configureStore({
-  reducer: reducers,
+  reducer: {
+    table: tableReducer,
+  },
   middleware: [
     ...getDefaultMiddleware({
       serializableCheck: false,

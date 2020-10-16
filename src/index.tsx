@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import {Provider} from "react-redux";
 import { ButtonCounter } from "./ButtonCounter";
+import store from "./redux/store";
 import "./style.css";
 
 interface AppState {
@@ -21,13 +23,15 @@ class App extends Component<{}, AppState> {
 
   render() {
     return (
-      <div>
-        <p>Simple React Typescript Starter</p>
-        <ButtonCounter
-          name={this.state.name}
-          onClicked={(e) => this.onChildClicked(e)}
-        />
-      </div>
+      <Provider store={store}>
+        <div>
+          <p>Simple React Typescript Starter</p>
+          <ButtonCounter
+            name={this.state.name}
+            onClicked={(e) => this.onChildClicked(e)}
+          />
+        </div>
+      </Provider>
     );
   }
 }

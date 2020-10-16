@@ -31,6 +31,7 @@
         "ordered-imports": [
             true
         ],
+        "quotemark": [true, "double", "avoid-escape"],
         "new-parens": true,
         "no-arg": true,
         "no-bitwise": true,
