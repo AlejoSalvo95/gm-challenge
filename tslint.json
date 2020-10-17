@@ -9,7 +9,7 @@
         "object-literal-sort-keys": false,
         "interface-name": false,
         "member-access": false,
-
+        "no-console": false,
         "whitespace": {
             "options": [
                 "check-type"
@@ -36,11 +36,8 @@
         "no-arg": true,
         "no-bitwise": true,
         "no-conditional-assignment": true,
-        "no-consecutive-blank-lines": false,
-        "no-console": {
-            "severity": "warning",
-            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
-        }
+        "no-consecutive-blank-lines": false
+
     },
     "jsRules": {
         "max-line-length": {

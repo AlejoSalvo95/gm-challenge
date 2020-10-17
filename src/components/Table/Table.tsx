@@ -1,17 +1,17 @@
-import React, { Component, useReducer } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Component, useState } from "react";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import photos from "../../photos.json";
-import tableReducer from "../../redux/reducers/tableReducer";
 
+function selector(state) {
+    return state;
+}
 function Table() {
-    const [state, dispatch] = useReducer(tableReducer, []);
-
     // TODO REMOVE PHOTO
     // TODO SET DATA ON STORE
     const setStoreData = () => {
         // TODO CALL ACTION
-        dispatch({ type: "PAGE_FORWARD", filter: "exxxx"});
     };
+    const result = useSelector(selector);
     return (
     <div className="table-container" >
          <span
@@ -27,7 +27,7 @@ function Table() {
                 </tr>
             </thead>
         <tbody className="t-body" >
-        {photos.map((element) => <tr className="t-row" >
+        {photos.map((element,idx) => <tr key={idx} className="t-row" >
             <td className="t-data" >{element.title} </td>
             <td className="t-data" >{element.url} </td>
             <td className="t-data" >{element.thumbnailUrl} </td>
