@@ -1,10 +1,23 @@
-import React, { Component } from "react";
+import React, { Component, useReducer } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import photos from "../../photos.json";
+import tableReducer from "../../redux/reducers/tableReducer";
 
 function Table() {
+    const [state, dispatch] = useReducer(tableReducer, []);
+
     // TODO REMOVE PHOTO
-  return (
+    // TODO SET DATA ON STORE
+    const setStoreData = () => {
+        // TODO CALL ACTION
+        dispatch({ type: "PAGE_FORWARD", filter: "exxxx"});
+    };
+    return (
     <div className="table-container" >
+         <span
+            onClick={setStoreData}
+          >Test</span>
+
         <table className="table" >
         <thead className="t-header" >
             <tr className="t-row" >
@@ -21,8 +34,7 @@ function Table() {
             </tr>)
         }
             </tbody>
-        </table>
-    </div>
-  );
+        </table>;
+    </div>);
 }
 export default Table;
