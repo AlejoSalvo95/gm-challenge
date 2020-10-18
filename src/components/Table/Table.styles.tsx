@@ -24,3 +24,15 @@ export const TableData = styled.td`
     padding: .5em;
     border-bottom: 1px solid lightgrey;
 `;
+export const PageIndex = styled.span`
+    padding: 10px;
+`;
+export const SelectedPageIndex = styled.span`
+    padding: 10px;
+    font-weight: bold;
+`;
+export const PageIndexContainer = styled.div`
+    text-align: center;
+    padding: 20px 0;
+
+`;

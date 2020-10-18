@@ -1,8 +1,6 @@
 export const NEXT_PAGE = "NEXT_PAGE";
 export const PREVIOUS_PAGE = "PREVIOUS_PAGE";
 export const GO_TO_PAGE = "GO_TO_PAGE";
-export const NEXT_X_PAGES = "NEXT_X_PAGES";
-export const PREVIOUS_X_PAGES = "PREVIOUS_X_PAGES";
 export const GET_PHOTOS_STARTED = "GET_PHOTOS_STARTED";
 export const GET_PHOTOS_SUCCESS = "GET_PHOTOS_SUCCESS";
 export const GET_PHOTOS_FAILED = "GET_PHOTOS_FAILED";

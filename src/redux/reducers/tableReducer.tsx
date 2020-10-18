@@ -5,9 +5,7 @@ import {
   GET_PHOTOS_SUCCESS,
   GO_TO_PAGE,
   NEXT_PAGE,
-  NEXT_X_PAGES,
   PREVIOUS_PAGE,
-  PREVIOUS_X_PAGES,
 } from "../actions";
 
 const tableReducer = (state = TableInitalState, action) => {
@@ -31,16 +29,6 @@ const tableReducer = (state = TableInitalState, action) => {
       return {
         ...state,
         currentPage: action.page,
-      };
-    case NEXT_X_PAGES:
-      return {
-        ...state,
-        currentPage: state.currentPage + action.photosPerPage,
-      };
-    case PREVIOUS_X_PAGES:
-      return {
-        ...state,
-        currentPage: state.currentPage - action.photosPerPage,
       };
     case GET_PHOTOS_SUCCESS:
       return {
