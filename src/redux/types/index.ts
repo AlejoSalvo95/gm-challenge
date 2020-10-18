@@ -2,7 +2,20 @@ import { Action } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
 import store from "../store";
+type StatusType = "success" | "started" | "failed";
 
+interface PhotoType {
+  albumId: number;
+  id: number;
+  thumbnailUrl: string;
+  title: string;
+  url: string;
+}
+export interface TableState {
+  pageIdx: number;
+  photos: PhotoType[];
+  status?: StatusType;
+}
 export type fetchAction = {
   type: string[];
   callAPI?: () => Promise<AxiosResponse<any>>;

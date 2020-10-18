@@ -6,7 +6,6 @@ import store from "./redux/store";
 
 import "./style.css";
 
-
 function App() {
   return (
     <Provider store={store}>
@@ -14,6 +13,5 @@ function App() {
     </Provider>
   );
 }
-
 
 render(<App />, document.getElementById("root"));
