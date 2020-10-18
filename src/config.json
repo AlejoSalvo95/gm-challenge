@@ -1,4 +1,5 @@
 {
     "photosPerPage": 10,
-    "indexNeighboors": 4
+    "indexNeighboors": 4,
+    "jsonUrl":"https://jsonplaceholder.typicode.com/"
 }

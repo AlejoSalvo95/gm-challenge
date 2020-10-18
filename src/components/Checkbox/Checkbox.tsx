@@ -5,11 +5,8 @@ interface CheckboxProps {
     isChecked: boolean;
 }
 class Checkbox extends Component<CheckboxProps> {
-
-
     render() {
         const { label, isChecked, handleCheckboxChange } = this.props;
-
         return (
             <div className="checkbox">
                 <label>

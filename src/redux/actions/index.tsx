@@ -4,6 +4,7 @@ export const GO_TO_PAGE = "GO_TO_PAGE";
 export const GET_PHOTOS_STARTED = "GET_PHOTOS_STARTED";
 export const GET_PHOTOS_SUCCESS = "GET_PHOTOS_SUCCESS";
 export const GET_PHOTOS_FAILED = "GET_PHOTOS_FAILED";
+export const UPDATE_PHOTOS = "UPDATE_PHOTOS";
 
 import { PhotoType } from "../types";
 
@@ -24,6 +25,14 @@ export function getPhotosFailed() {
     type: GET_PHOTOS_FAILED,
   };
 }
+export function updatePhotos(photos: PhotoType[], resetStatus?: boolean) {
+  return {
+    type: UPDATE_PHOTOS,
+    photos,
+    resetStatus,
+  };
+}
+
 export function nextPage() {
   return {
     type: NEXT_PAGE,

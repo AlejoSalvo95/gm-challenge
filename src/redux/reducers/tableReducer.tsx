@@ -6,6 +6,7 @@ import {
   GO_TO_PAGE,
   NEXT_PAGE,
   PREVIOUS_PAGE,
+  UPDATE_PHOTOS
 } from "../actions";
 
 const tableReducer = (state = TableInitalState, action) => {
@@ -41,6 +42,12 @@ const tableReducer = (state = TableInitalState, action) => {
         ...state,
         photos: [],
         status: "failed",
+      };
+    case UPDATE_PHOTOS:
+      return {
+        ...state,
+        photos: action.photos,
+        status: action.resetStatus ? undefined : state.status,
       };
     case GET_PHOTOS_STARTED:
       return {

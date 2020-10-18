@@ -1,15 +1,18 @@
-import React, { Component, useEffect, useReducer, useState } from "react";
-import { useDispatch, useSelector, useStore } from "react-redux";
-import { indexNeighboors, photosPerPage } from "../../config.json";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllPhotosRequest } from "../../api";
+import { indexNeighboors, jsonUrl, photosPerPage } from "../../config.json";
 import {
     getPhotosFailed,
     getPhotosStarted,
     getPhotosSuccess,
     goToPage,
     nextPage,
-    previousPage
+    previousPage,
+    updatePhotos
 } from "../../redux/actions";
-import { TableState } from "../../redux/types";
+import { PhotoType, TableState } from "../../redux/types";
+import Button from "../Button/Button";
 import Checkbox from "../Checkbox/Checkbox";
 import {
     PageIndex, PageIndexContainer, SelectedPageIndex, StyledTable,
@@ -20,54 +23,52 @@ const selector = (state) => {
     return state.table;
 };
 
-function Table() {
-    // TODO REMOVE PHOTO
-    // TODO MOVE HTTP CALL
-    const dispatch = useDispatch();
+const getPagesIndex = (currentPage: number, totalPages: number) => {
+    const range = (start, end, length = end - start + 1) => [...Array(length).keys()].map((d) => d + start);
+    const firstPage = currentPage - 1 - indexNeighboors;
+    const lastPage = currentPage - 1 + indexNeighboors - totalPages;
+    let endingIndex = lastPage < 0 ? currentPage + indexNeighboors : totalPages;
+    if (firstPage < 0) {
+        endingIndex -= firstPage;
+    }
+    const startingIndex = firstPage > 0 ? firstPage : 1;
+    const i = startingIndex;
+    return range(startingIndex, endingIndex);
+};
 
+
+function Table() {
+    // TODO EDIT ROW
+    // TODO NO ANY RULE
+    const dispatch = useDispatch();
     const tableState: TableState = useSelector(selector);
+
     const [selected, setSelected] = useState<number[]>([]);
     const [allSelected, setAllSelected] = useState<boolean>(false);
     const { currentPage, photos, status } = tableState;
     const totalPages = Math.ceil(photos.length / photosPerPage);
 
+    useEffect(() => {
+        getAllPhotos();
+    }, []);
+
     // Logic for displaying items
     const indexOfLastItem = currentPage * photosPerPage;
     const indexOfFirstItem = indexOfLastItem - photosPerPage;
     const currentPhotos = photos.slice(indexOfFirstItem, indexOfLastItem);
-
     // Logic for displaying page numbers
-    let pageNumbers: number[] = [];
-    const range = (start, end, length = end - start + 1) => [...Array(length).keys()].map((d) => d + start);
 
-    const getPagesIndex = () => {
-        const lowerDiff = currentPage - 1 - indexNeighboors;
-        const higherDiff = currentPage - 1 + indexNeighboors - totalPages;
-        let endingIndex = higherDiff < 0 ? currentPage + indexNeighboors : totalPages;
-        if (lowerDiff < 0) {
-            endingIndex -= lowerDiff;
-        }
-        const startingIndex = lowerDiff > 0 ? lowerDiff : 1;
-        const i = startingIndex;
-        return range(startingIndex, endingIndex);
-    };
-    pageNumbers = getPagesIndex();
+    let pageNumbers: number[] = [];
+    if (totalPages > 0) pageNumbers = getPagesIndex(currentPage, totalPages);
+
     const handleGoToPage = (page: number) => {
         dispatch(goToPage(page));
     };
-
-    const jsonUrl = "https://jsonplaceholder.typicode.com/";
-    useEffect(() => {
-        getData();
-    }, []);
-    const getData = () => {
+    const getAllPhotos = () => {
         dispatch(getPhotosStarted());
-        fetch(jsonUrl + "photos")
-            .then((response) => response.json())
+        getAllPhotosRequest()
             .then((json) => {
-                if (json) {
-                    dispatch(getPhotosSuccess(json));
-                }
+                if (json) dispatch(getPhotosSuccess(json));
             })
             .catch(() => { dispatch(getPhotosFailed()); });
     };
@@ -84,6 +85,8 @@ function Table() {
     const handleSelectedAll = () => {
         if (allSelected) {
             setSelected([]);
+        } else {
+            setSelected(photos.map((item) => item.id));
         }
         setAllSelected(!allSelected);
     };
@@ -97,6 +100,24 @@ function Table() {
             setSelected(auxSelected);
         }
     };
+    const handleDeleteSelected = () => {
+        let confirmDelete = true;
+        if (allSelected) {
+            confirmDelete = confirm("Are you sure?");
+        }
+        if (confirmDelete) {
+            setAllSelected(false);
+            setSelected([]);
+            const auxPhotos: PhotoType[] = [];
+            photos.map((item) => {
+                const index = selected.indexOf(item.id);
+                if (index === -1) {
+                    auxPhotos.push({ ...item });
+                }
+            });
+            dispatch(updatePhotos(auxPhotos));
+        }
+    };
 
     const tableShown = <StyledTable className="table" >
         <TableHeader className="t-header" >
@@ -104,10 +125,10 @@ function Table() {
                 <TableData className="t-data">
                     <Checkbox isChecked={allSelected} handleCheckboxChange={handleSelectedAll} label={""} />
                 </TableData>
-                <TableData className="t-data" >id </TableData>
-                <TableData className="t-data" >title </TableData>
-                <TableData className="t-data" >url </TableData>
-                <TableData className="t-data" >thumbnailUrl </TableData>
+                <TableData className="t-data" >Id </TableData>
+                <TableData className="t-data" >Title </TableData>
+                <TableData className="t-data" >Url </TableData>
+                <TableData className="t-data" >ThumbnailUrl </TableData>
             </TableRow>
         </TableHeader>
         <tbody className="t-body" >
@@ -115,7 +136,7 @@ function Table() {
                 currentPhotos.map((element, idx) => <TableRow key={idx} className="t-row" >
                     <TableData className="t-data" >
                         <Checkbox
-                            isChecked={allSelected || selected.indexOf(element.id) > -1}
+                            isChecked={selected.indexOf(element.id) > -1}
                             handleCheckboxChange={() => handleSelected(element.id)} label={""}
                         />
                     </TableData>
@@ -125,23 +146,24 @@ function Table() {
                     <TableData className="t-data" >{element.thumbnailUrl} </TableData>
                 </TableRow>)
                 : <TableRow className="t-row" >
-                    <td colSpan={3} className="t-data" >No data</td>
+                    <td colSpan={5} className="t-data" >No data</td>
                 </TableRow>}
         </tbody>
     </StyledTable>;
 
-    const tableIndex = <PageIndexContainer>
+    const buttonDeleteSelected = <Button name={"Delete Selected "} handleClick={handleDeleteSelected} ></Button>;
+    const tableIndex = totalPages > 0 && <PageIndexContainer>
+        {
+            pageNumbers.indexOf(photos[0].id) === -1 &&
+            <PageIndex
+                onClick={() => handleGoToPage(1)}
+            >First</PageIndex>
+        }
         {
             currentPage !== 1 &&
             <PageIndex
                 onClick={() => handlePreviousPage()}
             >«</PageIndex>
-        }
-        {
-            pageNumbers.indexOf(1) === -1 &&
-            <PageIndex
-                onClick={() => handleGoToPage(1)}
-            >First</PageIndex>
         }
         {
             pageNumbers.map((num, idx) => {
@@ -177,11 +199,13 @@ function Table() {
     return (
         <TableContainer >
             {
-                !status ? <p
-                    onClick={() => getData()}
-                >Get Photos</p> : status === "success" ?
+                !status ?
+                    <p onClick={() => getAllPhotos()}
+                    >Get Photos</p>
+                    : status === "success" ?
                         <div>
                             {tableShown}
+                            {buttonDeleteSelected}
                             {tableIndex}
                         </div>
                         : status === "failed" ?

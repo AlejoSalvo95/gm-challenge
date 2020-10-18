@@ -1,15 +1,25 @@
-import React from "react";
-import { StyledButton, StyledDiv } from "./Button.styles";
+import React, { Component } from "react";
+import { StyledButton } from "./Button.styles";
 
-export const Button = (name, handleClick) => {
-  return (
-    <div>
-      <StyledButton
-        onClick={handleClick}
-      >
-        {name}
-      </StyledButton>
-      <StyledDiv />
-    </div>
-  );
-};
+
+interface ButtonProps {
+  name: string;
+  handleClick: () => void;
+}
+class Button extends Component<ButtonProps> {
+  render() {
+    const { handleClick, name } = this.props;
+
+    return (
+      <>
+        <StyledButton
+          onClick={handleClick}
+        >
+          {name}
+        </StyledButton>
+      </>
+    );
+  }
+}
+
+export default Button;
