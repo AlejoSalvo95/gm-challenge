@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import store from "../store";
 type StatusType = "success" | "started" | "failed";
 
-interface PhotoType {
+export interface PhotoType {
   albumId: number;
   id: number;
   thumbnailUrl: string;
@@ -12,7 +12,7 @@ interface PhotoType {
   url: string;
 }
 export interface TableState {
-  pageIdx: number;
+  currentPage: number;
   photos: PhotoType[];
   status?: StatusType;
 }
