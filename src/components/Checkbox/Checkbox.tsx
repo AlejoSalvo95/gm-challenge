@@ -8,7 +8,7 @@ class Checkbox extends Component<CheckboxProps> {
     render() {
         const { label, isChecked, handleCheckboxChange } = this.props;
         return (
-            <div className="checkbox">
+            <div>
                 <label>
                     <input
                         type="checkbox"
@@ -16,7 +16,6 @@ class Checkbox extends Component<CheckboxProps> {
                         checked={isChecked}
                         onChange={handleCheckboxChange}
                     />
-
                     {label}
                 </label>
             </div>

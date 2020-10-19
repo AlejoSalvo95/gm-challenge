@@ -29,38 +29,38 @@ const Table = ({ editRowButton, handleSelected, handleSelectedAll, allSelected }
     const currentPhotos = photos.slice(indexOfFirstItem, indexOfLastItem);
 
 
-    const tableShown = <StyledTable className="table" >
-        <TableHeader className="t-header" >
-            <TableRow className="t-row" >
-                <TableData className="t-data">
+    const tableShown = <StyledTable>
+        <TableHeader>
+            <TableRow>
+                <TableData>
                     <Checkbox isChecked={allSelected} handleCheckboxChange={handleSelectedAll} label={""} />
                 </TableData>
-                <TableData className="t-data" >Id </TableData>
-                <TableData className="t-data" >Title </TableData>
-                <TableData className="t-data" >Url </TableData>
-                <TableData className="t-data" >Thumbnail Url </TableData>
-                <TableData className="t-data" >Edit </TableData>
+                <TableData>Id </TableData>
+                <TableData>Title </TableData>
+                <TableData>Url </TableData>
+                <TableData>Thumbnail Url </TableData>
+                <TableData>Edit </TableData>
             </TableRow>
         </TableHeader>
-        <tbody className="t-body" >
+        <tbody>
             {currentPhotos && currentPhotos.length ?
-                currentPhotos.map((element, idx) => <TableRow key={idx} className="t-row" >
-                    <TableData className="t-data" >
+                currentPhotos.map((element, idx) => <TableRow key={idx}>
+                    <TableData >
                         <Checkbox
                             isChecked={selected.indexOf(element.id) > -1}
                             handleCheckboxChange={() => handleSelected(element.id)} label={""}
                         />
                     </TableData>
-                    <TableData className="t-data" >{element.id} </TableData>
-                    <TableData className="t-data" >{element.title} </TableData>
-                    <TableData className="t-data" >{element.url} </TableData>
-                    <TableData className="t-data" >{element.thumbnailUrl} </TableData>
-                    <TableData className="t-data" >
+                    <TableData>{element.id} </TableData>
+                    <TableData>{element.title} </TableData>
+                    <TableData>{element.url} </TableData>
+                    <TableData>{element.thumbnailUrl} </TableData>
+                    <TableData>
                         {editRowButton(element)}
                     </TableData>
                 </TableRow>)
-                : <TableRow className="t-row" >
-                    <td colSpan={5} className="t-data" >No data</td>
+                : <TableRow>
+                    <td colSpan={5}>No data</td>
                 </TableRow>}
         </tbody>
     </StyledTable>;
