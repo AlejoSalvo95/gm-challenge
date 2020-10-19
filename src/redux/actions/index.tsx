@@ -26,11 +26,11 @@ export function getPhotosFailed() {
     type: GET_PHOTOS_FAILED,
   };
 }
-export function updatePhotos(photos: PhotoType[], resetStatus?: boolean) {
+export function updatePhotos(photos: PhotoType[]) {
   return {
     type: UPDATE_PHOTOS,
     photos,
-    resetStatus,
+    currentPage: 1,
   };
 }
 

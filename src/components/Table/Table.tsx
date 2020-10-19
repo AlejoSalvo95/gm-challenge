@@ -34,7 +34,7 @@ const getPagesIndex = (currentPage: number, totalPages: number) => {
         endingIndex -= firstPage;
     }
     const startingIndex = firstPage > 0 ? firstPage : 1;
-    const i = startingIndex;
+    endingIndex = endingIndex > totalPages ? totalPages : endingIndex;
     return range(startingIndex, endingIndex);
 };
 

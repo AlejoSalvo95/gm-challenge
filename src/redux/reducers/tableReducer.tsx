@@ -48,7 +48,7 @@ const tableReducer = (state = TableInitalState, action) => {
       return {
         ...state,
         photos: action.photos,
-        status: action.resetStatus ? undefined : state.status,
+        currentPage: action.currentPage,
       };
     case GET_PHOTOS_STARTED:
       return {
