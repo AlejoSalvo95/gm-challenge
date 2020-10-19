@@ -57,12 +57,6 @@ function TablePage() {
         getAllPhotos();
     }, []);
 
-    // Logic for displaying items
-    const indexOfLastItem = currentPage * photosPerPage;
-    const indexOfFirstItem = indexOfLastItem - photosPerPage;
-    const currentPhotos = photos.slice(indexOfFirstItem, indexOfLastItem);
-    // Logic for displaying page numbers
-
     let pageNumbers: number[] = [];
     if (totalPages > 0) pageNumbers = getPagesIndex(currentPage, totalPages);
 
@@ -146,7 +140,8 @@ function TablePage() {
         setShowModal(!showModal);
     };
     const editRowButton = (element) => <ImgEdit onClick={() => handleEdit(element)} src="./img/edit.svg"></ImgEdit>;
-    const buttonDeleteSelected = <Button label={"Delete Selected "} onClick={handleDeleteSelected} ></Button>;
+    const buttonDeleteSelected = totalPages > 0 &&
+        <Button label={"Delete Selected "} onClick={handleDeleteSelected} ></Button>;
     const tableIndex = totalPages > 0 && <PageIndexContainer>
         {
             pageNumbers.indexOf(photos[0].id) === -1 &&
@@ -201,6 +196,7 @@ function TablePage() {
                     : status === "success" ?
                         <div>
                             <Table
+                                allSelected={allSelected}
                                 handleSelected={handleSelected}
                                 handleSelectedAll={handleSelectedAll}
                                 editRowButton={editRowButton} />

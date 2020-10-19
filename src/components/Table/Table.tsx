@@ -15,13 +15,13 @@ interface TableProps {
     editRowButton: (photo: PhotoType) => JSX.Element;
     handleSelected: (id: number) => void;
     handleSelectedAll: () => void;
+    allSelected: boolean;
 }
 
-const Table = ({ editRowButton, handleSelected, handleSelectedAll }: TableProps) => {
+const Table = ({ editRowButton, handleSelected, handleSelectedAll, allSelected }: TableProps) => {
 
     const tableState: TableState = useSelector(selector);
 
-    const [allSelected, setAllSelected] = useState<boolean>(false);
     const { currentPage, photos, selected } = tableState;
 
     const indexOfLastItem = currentPage * photosPerPage;
