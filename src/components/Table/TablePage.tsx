@@ -43,7 +43,6 @@ const getPagesIndex = (currentPage: number, totalPages: number) => {
 
 
 function TablePage() {
-    // TODO NO ANY RULE
     const dispatch = useDispatch();
     const tableState: TableState = useSelector(selector);
 
