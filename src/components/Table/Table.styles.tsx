@@ -49,5 +49,7 @@ export const SelectedPageIndex = styled.span`
 export const PageIndexContainer = styled.div`
     text-align: center;
     padding: 20px 0;
-
+`;
+export const ImgEdit = styled.img`
+    cursor: pointer;
 `;

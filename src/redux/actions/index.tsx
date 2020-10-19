@@ -5,6 +5,7 @@ export const GET_PHOTOS_STARTED = "GET_PHOTOS_STARTED";
 export const GET_PHOTOS_SUCCESS = "GET_PHOTOS_SUCCESS";
 export const GET_PHOTOS_FAILED = "GET_PHOTOS_FAILED";
 export const UPDATE_PHOTOS = "UPDATE_PHOTOS";
+export const SAVE_EDIT = "SAVE_EDIT";
 
 import { PhotoType } from "../types";
 
@@ -48,6 +49,13 @@ export function goToPage(page: number) {
   return {
     type: GO_TO_PAGE,
     page,
+  };
+}
+
+export function saveEdit(photos: PhotoType[]) {
+  return {
+    type: SAVE_EDIT,
+    photos,
   };
 }
 

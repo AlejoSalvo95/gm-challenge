@@ -3,19 +3,19 @@ import { StyledButton } from "./Button.styles";
 
 
 interface ButtonProps {
-  name: string;
-  handleClick: () => void;
+  label: string;
+  onClick: () => void;
 }
 class Button extends Component<ButtonProps> {
   render() {
-    const { handleClick, name } = this.props;
+    const { onClick, label } = this.props;
 
     return (
       <>
         <StyledButton
-          onClick={handleClick}
+          onClick={onClick}
         >
-          {name}
+          {label}
         </StyledButton>
       </>
     );

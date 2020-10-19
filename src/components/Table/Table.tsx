@@ -9,17 +9,19 @@ import {
     goToPage,
     nextPage,
     previousPage,
+    saveEdit,
     updatePhotos
 } from "../../redux/actions";
 import { PhotoType, TableState } from "../../redux/types";
 import Button from "../Button/Button";
 import Checkbox from "../Checkbox/Checkbox";
+import { Modal } from "../Modal/Modal";
 import {
-    PageIndex, PageIndexContainer, SelectedPageIndex, StyledTable,
-    TableContainer, TableData, TableHeader, TableRow
+    ImgEdit, PageIndex, PageIndexContainer, SelectedPageIndex,
+    StyledTable, TableContainer, TableData, TableHeader, TableRow
 } from "./Table.styles";
 
-const selector = (state) => {
+export const selector = (state) => {
     return state.table;
 };
 
@@ -38,14 +40,18 @@ const getPagesIndex = (currentPage: number, totalPages: number) => {
 
 
 function Table() {
-    // TODO EDIT ROW
+    // TODO PASARLE COMPONENTES A LA TABLA
     // TODO NO ANY RULE
     const dispatch = useDispatch();
     const tableState: TableState = useSelector(selector);
 
     const [selected, setSelected] = useState<number[]>([]);
     const [allSelected, setAllSelected] = useState<boolean>(false);
+    const [modalPhoto, setModalPhoto] = useState<PhotoType>();
+    const [showModal, setShowModal] = useState<boolean>(false);
     const { currentPage, photos, status } = tableState;
+
+
     const totalPages = Math.ceil(photos.length / photosPerPage);
 
     useEffect(() => {
@@ -81,6 +87,18 @@ function Table() {
         if (currentPage > 1) {
             dispatch(previousPage());
         }
+    };
+    const handleSaveEdit = (photoEdited) => {
+        setShowModal(false);
+        let editedPhotoIdx = 0;
+        const auxPhotos = [...photos];
+        auxPhotos.map((photo, idx) => {
+            if (photoEdited.id === photo.id) {
+                editedPhotoIdx = idx;
+            }
+        });
+        auxPhotos[editedPhotoIdx] = { ...photoEdited };
+        dispatch(saveEdit(auxPhotos));
     };
     const handleSelectedAll = () => {
         if (allSelected) {
@@ -118,7 +136,12 @@ function Table() {
             dispatch(updatePhotos(auxPhotos));
         }
     };
-
+    const handleEdit = (photo?: PhotoType) => {
+        if (photo) {
+            setModalPhoto(photo);
+        }
+        setShowModal(!showModal);
+    };
     const tableShown = <StyledTable className="table" >
         <TableHeader className="t-header" >
             <TableRow className="t-row" >
@@ -128,7 +151,8 @@ function Table() {
                 <TableData className="t-data" >Id </TableData>
                 <TableData className="t-data" >Title </TableData>
                 <TableData className="t-data" >Url </TableData>
-                <TableData className="t-data" >ThumbnailUrl </TableData>
+                <TableData className="t-data" >Thumbnail Url </TableData>
+                <TableData className="t-data" >Edit </TableData>
             </TableRow>
         </TableHeader>
         <tbody className="t-body" >
@@ -144,6 +168,9 @@ function Table() {
                     <TableData className="t-data" >{element.title} </TableData>
                     <TableData className="t-data" >{element.url} </TableData>
                     <TableData className="t-data" >{element.thumbnailUrl} </TableData>
+                    <TableData className="t-data" >
+                        <ImgEdit onClick={() => handleEdit(element)} src="./img/edit.svg"></ImgEdit>
+                    </TableData>
                 </TableRow>)
                 : <TableRow className="t-row" >
                     <td colSpan={5} className="t-data" >No data</td>
@@ -151,7 +178,7 @@ function Table() {
         </tbody>
     </StyledTable>;
 
-    const buttonDeleteSelected = <Button name={"Delete Selected "} handleClick={handleDeleteSelected} ></Button>;
+    const buttonDeleteSelected = <Button label={"Delete Selected "} onClick={handleDeleteSelected} ></Button>;
     const tableIndex = totalPages > 0 && <PageIndexContainer>
         {
             pageNumbers.indexOf(photos[0].id) === -1 &&
@@ -198,6 +225,7 @@ function Table() {
 
     return (
         <TableContainer >
+            {showModal && <Modal saveEdit={handleSaveEdit} photo={modalPhoto} onToggleModal={handleEdit} />}
             {
                 !status ?
                     <p onClick={() => getAllPhotos()}

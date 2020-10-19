@@ -6,6 +6,7 @@ import {
   GO_TO_PAGE,
   NEXT_PAGE,
   PREVIOUS_PAGE,
+  SAVE_EDIT,
   UPDATE_PHOTOS
 } from "../actions";
 
@@ -54,6 +55,13 @@ const tableReducer = (state = TableInitalState, action) => {
         ...state,
         status: "started",
       };
+    case SAVE_EDIT:
+      return {
+        ...state,
+        photos: action.photos,
+
+      };
+
     default:
       return state;
   }
