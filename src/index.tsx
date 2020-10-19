@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import Table from "./components/Table/Table";
+import TablePage from "./components/Table/TablePage";
 import store from "./redux/store";
 
 import "./style.css";
@@ -9,7 +9,7 @@ import "./style.css";
 function App() {
   return (
     <Provider store={store}>
-      <Table />
+      <TablePage />
     </Provider>
   );
 }
