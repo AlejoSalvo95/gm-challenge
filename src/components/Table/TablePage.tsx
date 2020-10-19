@@ -10,6 +10,7 @@ import {
     nextPage,
     previousPage,
     saveEdit,
+    setSelected,
     updatePhotos
 } from "../../redux/actions";
 import { PhotoType, TableState } from "../../redux/types";
@@ -42,16 +43,14 @@ const getPagesIndex = (currentPage: number, totalPages: number) => {
 
 
 function TablePage() {
-    // TODO PASARLE COMPONENTES A LA TABLA
     // TODO NO ANY RULE
     const dispatch = useDispatch();
     const tableState: TableState = useSelector(selector);
 
-    const [selected, setSelected] = useState<number[]>([]);
     const [allSelected, setAllSelected] = useState<boolean>(false);
     const [modalPhoto, setModalPhoto] = useState<PhotoType>();
     const [showModal, setShowModal] = useState<boolean>(false);
-    const { currentPage, photos, status } = tableState;
+    const { currentPage, photos, status, selected } = tableState;
 
     const totalPages = Math.ceil(photos.length / photosPerPage);
 
@@ -103,30 +102,31 @@ function TablePage() {
     };
     const handleSelectedAll = () => {
         if (allSelected) {
-            setSelected([]);
+            dispatch(setSelected([]));
         } else {
-            setSelected(photos.map((item) => item.id));
+            dispatch(setSelected(photos.map((item) => item.id)));
         }
         setAllSelected(!allSelected);
     };
     const handleSelected = (id: number) => {
         const index = selected.indexOf(id);
         if (index === -1) {
-            setSelected(selected.concat(id));
+            dispatch(setSelected(selected.concat(id)));
         } else {
             const auxSelected = [...selected];
             auxSelected.splice(index, 1);
-            setSelected(auxSelected);
+            dispatch(setSelected(auxSelected));
         }
     };
     const handleDeleteSelected = () => {
+        console.log(selected, "selected");
         let confirmDelete = true;
         if (allSelected) {
             confirmDelete = confirm("Are you sure?");
         }
         if (confirmDelete) {
             setAllSelected(false);
-            setSelected([]);
+            dispatch(setSelected([]));
             const auxPhotos: PhotoType[] = [];
             photos.map((item) => {
                 const index = selected.indexOf(item.id);
@@ -146,6 +146,7 @@ function TablePage() {
     const toggleModal = () => {
         setShowModal(!showModal);
     };
+    const editRowButton = (element) => <ImgEdit onClick={() => handleEdit(element)} src="./img/edit.svg"></ImgEdit>;
     const buttonDeleteSelected = <Button label={"Delete Selected "} onClick={handleDeleteSelected} ></Button>;
     const tableIndex = totalPages > 0 && <PageIndexContainer>
         {
@@ -200,7 +201,10 @@ function TablePage() {
                     >Get Photos</p>
                     : status === "success" ?
                         <div>
-                            <Table handleEdit={handleEdit} />
+                            <Table
+                                handleSelected={handleSelected}
+                                handleSelectedAll={handleSelectedAll}
+                                editRowButton={editRowButton} />
                             {buttonDeleteSelected}
                             {tableIndex}
                         </div>

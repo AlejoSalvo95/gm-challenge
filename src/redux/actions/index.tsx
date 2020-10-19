@@ -6,6 +6,7 @@ export const GET_PHOTOS_SUCCESS = "GET_PHOTOS_SUCCESS";
 export const GET_PHOTOS_FAILED = "GET_PHOTOS_FAILED";
 export const UPDATE_PHOTOS = "UPDATE_PHOTOS";
 export const SAVE_EDIT = "SAVE_EDIT";
+export const SET_SELECTED = "SET_SELECTED";
 
 import { PhotoType } from "../types";
 
@@ -58,8 +59,14 @@ export function saveEdit(photos: PhotoType[]) {
     photos,
   };
 }
-
+export function setSelected(selected: number[]) {
+  return {
+    type: SET_SELECTED,
+    selected,
+  };
+}
 export const TableInitalState: TableState = {
   currentPage: 1,
   photos: [],
+  selected: [],
 };

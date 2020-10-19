@@ -10,39 +10,24 @@ import {
 export const selector = (state) => {
     return state.table;
 };
+
 interface TableProps {
-    handleEdit: (photo: PhotoType) => void;
+    editRowButton: (photo: PhotoType) => JSX.Element;
+    handleSelected: (id: number) => void;
+    handleSelectedAll: () => void;
 }
 
-const Table = ({ handleEdit }: TableProps) => {
+const Table = ({ editRowButton, handleSelected, handleSelectedAll }: TableProps) => {
+
     const tableState: TableState = useSelector(selector);
 
-    const [selected, setSelected] = useState<number[]>([]);
     const [allSelected, setAllSelected] = useState<boolean>(false);
-    const { currentPage, photos } = tableState;
+    const { currentPage, photos, selected } = tableState;
 
     const indexOfLastItem = currentPage * photosPerPage;
     const indexOfFirstItem = indexOfLastItem - photosPerPage;
     const currentPhotos = photos.slice(indexOfFirstItem, indexOfLastItem);
 
-    const handleSelectedAll = () => {
-        if (allSelected) {
-            setSelected([]);
-        } else {
-            setSelected(photos.map((item) => item.id));
-        }
-        setAllSelected(!allSelected);
-    };
-    const handleSelected = (id: number) => {
-        const index = selected.indexOf(id);
-        if (index === -1) {
-            setSelected(selected.concat(id));
-        } else {
-            const auxSelected = [...selected];
-            auxSelected.splice(index, 1);
-            setSelected(auxSelected);
-        }
-    };
 
     const tableShown = <StyledTable className="table" >
         <TableHeader className="t-header" >
@@ -71,7 +56,7 @@ const Table = ({ handleEdit }: TableProps) => {
                     <TableData className="t-data" >{element.url} </TableData>
                     <TableData className="t-data" >{element.thumbnailUrl} </TableData>
                     <TableData className="t-data" >
-                        <ImgEdit onClick={() => handleEdit(element)} src="./img/edit.svg"></ImgEdit>
+                        {editRowButton(element)}
                     </TableData>
                 </TableRow>)
                 : <TableRow className="t-row" >

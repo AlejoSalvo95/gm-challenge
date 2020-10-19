@@ -15,6 +15,7 @@ export interface TableState {
   currentPage: number;
   photos: PhotoType[];
   status?: StatusType;
+  selected: number[];
 }
 export type fetchAction = {
   type: string[];
@@ -41,6 +42,8 @@ interface PagesObject {
   [key: string]: string[];
 }
 
+
+// TODO ERASE THIS
 export interface EntityPaginationObject {
   pages: PagesObject;
   currentPage: number;

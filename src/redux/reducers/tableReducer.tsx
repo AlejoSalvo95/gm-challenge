@@ -7,6 +7,7 @@ import {
   NEXT_PAGE,
   PREVIOUS_PAGE,
   SAVE_EDIT,
+  SET_SELECTED,
   UPDATE_PHOTOS
 } from "../actions";
 
@@ -59,9 +60,12 @@ const tableReducer = (state = TableInitalState, action) => {
       return {
         ...state,
         photos: action.photos,
-
       };
-
+    case SET_SELECTED:
+      return {
+        ...state,
+        selected: action.selected,
+      };
     default:
       return state;
   }
